@@ -16,14 +16,16 @@ volumes:
     driver: local
   mf_mysql8data:
     driver: local
+  mf_jagerdata:
+    driver: local    
   # 服务
 services:
   mf_etcd:
-    image: bitnami/etcd:latest
-    restart: always    
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_etcd:latest
+    container_name: mf_etcd
     ports:
-      - 2379:2379
-      - 2380:2380
+      - ${ETCD_HTTP_PORT}:2379
+      - ${ETCD_Peer_PORT}:2380
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes
       - ETCD_ADVERTISE_CLIENT_URLS=http://vb-dev:2379
@@ -34,7 +36,8 @@ services:
 
   mf_etcd_web:
     image: evildecay/etcdkeeper
-    restart: always    
+    container_name: mf_etcd_web
+    restart: always
     ports:
       - 9080:8080
     networks:
@@ -42,40 +45,78 @@ services:
     # entrypoint: [ "./etcdkeeper.bin", "-h", 0.0.0.0, -p, 8080 ]
 
   mf_redis:
-    image: redis:6.0.2-alpine
-    container_name: mf_redis_6.0.2
-    restart: always
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_redis:latest
+    container_name: mf_redis    
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
     networks:
       - mf_net
     command: /usr/local/etc/redis/redis.conf
     volumes:
       # 持久存储redis的数据
-      - mf_redisdata:/data
+      - ./redis/data:/data
       # 挂载本地配置文件
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-      - /etc/localtime:/usr/local/etc/localtime
 
   mf_mysql8:
-    image: mysql:8.0.24
-    container_name: mf_mysql_8.0.24
-    restart: always
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_mysql8_0_27:latest
+    container_name: mf_mysql8    
     ports:
-      - 3306:3306
+      - ${MYSQL_8_0_27PORT}:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} # 设置 Mysql root 用户密码
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER} # 设置 Mysql 用户名称
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD} # 设置 Mysql 用户密码
     networks:
       - mf_net
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
     working_dir: /home
     volumes:
-      - ./mysql/8.0.24/conf/docker.cnf:/etc/mysql/conf.d/docker.cnf:rw
-      - mf_mysql8data:/var/lib/mysql/:rw
-      - mf_mysql8data:/var/log/mysql/:rw
-      - ./sql:/data/sql/:rw
-      - /etc/localtime:/usr/local/etc/localtime
-      - ./mysql/8.0.24/exec.sh:/home/exec.sh
+      - ./mysql/8.0.27/conf/docker.cnf:/etc/mysql/conf.d/docker.cnf:rw
+      - ../../doc/sql:/data/sql/:rw
+      - ./sql:/data/sql/init:rw
+      - ./mysql/8.0.27/exec.sh:/home/exec.sh
+
+  mf_prometheus:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_prometheus:latest
+    container_name: mf_prometheus    
+    volumes:
+      - ./prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml # 将 prometheus 配置文件挂载到容器里
+    ports:
+      - "${PROMETHEUS_PORT}:9090" # 设置容器9090端口映射指定宿主机端口，用于宿主机访问可视化web
+    networks:
+      - mf_net
+
+  mf_grafana:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_grafana:latest
+    container_name: mf_grafana    
+    ports:
+      - "${GRAFANA_PORT}:3000" # 设置容器3000端口映射指定宿主机端口，用于宿主机访问可视化web
+    networks:
+      - mf_net
+
+  mf_jaeger:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_jaeger:latest
+    container_name: mf_jaeger    
+    ports:
+      - "${JAEGER_PORT}:16686" # 设置容器16686端口映射指定宿主机端口，用于宿主机访问可视化web
+    networks:
+      - mf_net
+    volumes:
+      - mf_jagerdata:/tmp
+
+  mf_dtm:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_dtm:latest
+    container_name: mf_dtm    
+    environment:
+      - STORE_DRIVER=${DTM_STORE_DRIVER}
+      - STORE_HOST=${DTM_STORE_HOST}
+      - STORE_USER=${DTM_STORE_USERNAME}
+      - STORE_PASSWORD=${DTM_STORE_PASSWORD}
+      - STORE_PORT=${DTM_STORE_PORT}
+    ports:
+      - "${DTM_HTTP_PORT}:36789"
+      - "${DTM_GRPC_PORT}:36790"
+    networks:
+      - mf_net
