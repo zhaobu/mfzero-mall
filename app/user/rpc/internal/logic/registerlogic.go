@@ -3,10 +3,10 @@ package logic
 import (
 	"context"
 
-	"mfzero-mallpkg/cryptx"
 	"mfzero-mall/app/user/model"
 	"mfzero-mall/app/user/rpc/internal/svc"
 	"mfzero-mall/app/user/rpc/user"
+	"mfzero-mall/pkg/cryptx"
 
 	"github.com/tal-tech/go-zero/core/logx"
 	"google.golang.org/grpc/status"
@@ -44,11 +44,13 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 
 		res, err := l.svcCtx.UserModel.Insert(&newUser)
 		if err != nil {
+			l.Errorf("错误1:%w", err)
 			return nil, status.Error(500, err.Error())
 		}
 
 		newUser.Id, err = res.LastInsertId()
 		if err != nil {
+			l.Errorf("错误2:%w", err)
 			return nil, status.Error(500, err.Error())
 		}
 

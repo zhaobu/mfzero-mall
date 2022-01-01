@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"mfzero-mallpkg/jwtx"
+	"mfzero-mall/pkg/jwtx"
 	"mfzero-mall/app/user/api/internal/svc"
 	"mfzero-mall/app/user/api/internal/types"
 	"mfzero-mall/app/user/rpc/userclient"

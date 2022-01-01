@@ -6,7 +6,7 @@ endef
 style=gozero
 
 # api
-api_name=admin
+api_name=pay
 api_dir=proto
 out_put=bin/server
 # 生成api文件

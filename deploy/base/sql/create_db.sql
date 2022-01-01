@@ -6,7 +6,7 @@ flush privileges;
 GRANT ALL ON *.* TO 'lw'@'%';
 flush privileges;
 -- 创建数据库
-CREATE DATABASE IF NOT EXISTS `mf_admin` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
+CREATE DATABASE IF NOT EXISTS `mf_mall` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 CREATE DATABASE IF NOT EXISTS `mf_demo` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin';
 
 -- 建demo表

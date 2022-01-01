@@ -11,7 +11,7 @@ host=localhost
 mysql -h $host -u$user -p$password --default-character-set=utf8mb4 < create_db.sql
 # mysql -h $host -u$user --default-character-set=utf8mb4 < create_db.sql
 
-echo "use mf_admin;" >all.sql
+echo "use mf_mall;" >all.sql
 for i in $dir; do
     echo "source /data/sql/$i;" >>all.sql
 done

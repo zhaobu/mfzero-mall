@@ -6,8 +6,8 @@ endef
 style=gozero
 
 # rpc
-rpc_name=demo
-rpc_dir=./
+rpc_name=user
+rpc_dir=.
 out_put=bin/server
 # 生成proto模板
 rpc-template:

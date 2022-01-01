@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	"mfzero-mallpkg/cryptx"
+	"mfzero-mall/pkg/cryptx"
 	"mfzero-mall/app/user/model"
 	"mfzero-mall/app/user/rpc/internal/svc"
 	"mfzero-mall/app/user/rpc/user"
