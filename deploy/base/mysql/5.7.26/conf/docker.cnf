@@ -1,0 +1,6 @@
+[mysqld]
+skip-host-cache
+skip-name-resolve
+#报错 Invalid default value for 'add_time',主要需要添加到 [mysql] [mysqld] 标签下，加入到其他地方，即使重启后也不生效。
+#sql_mode=ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+

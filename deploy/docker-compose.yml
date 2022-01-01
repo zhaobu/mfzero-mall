@@ -1,0 +1,154 @@
+version: "3.8"
+
+# 申明同一个网络
+networks:
+  mf_net:
+    name: mf_net
+    external: true
+
+# 服务
+services:
+  search-api:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "api", "search" ]
+
+  demo-api:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    ports:
+      - 8989:8989
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "api", "demo" ]
+
+  demo:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "demo" ]
+
+  # 服务
+  admin-api:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    ports:
+      - 8888:8888
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "api", "admin" ]
+
+  oms:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "oms" ]
+
+  pay:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "pay" ]
+
+  pms:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "pms" ]
+
+  sms:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "sms" ]
+
+  sys:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "sys" ]
+
+  ums:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/mf/mf-server
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env      
+    volumes:
+      - ../:/home/mf/mf-server
+    entrypoint: [ "./start.sh", "service", "ums" ]
