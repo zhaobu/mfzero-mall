@@ -13,9 +13,9 @@ if [ $# -ne 2 ]; then
 elif [ $1 = 'api' ]; then
     cd api/$2 && build
     $output -f etc/$2-api.yaml
-elif [ $1 = 'service' ]; then
-    cd app/$2/service && build
+elif [ $1 = 'rpc' ]; then
+    cd app/$2/rpc && build
     $output -f etc/$2.yaml
 else
-    echo "./start api $servername || ./start service $servername"
+    echo "./start api $servername || ./start rpc $servername"
 fi
