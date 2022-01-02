@@ -8,6 +8,66 @@ networks:
 
 # 服务
 services:
+  user-api:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/code
+    restart: always
+    user: 1000:1000
+    ports:
+      - 8000:8000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/code
+    entrypoint: [ "./start.sh", "api", "user" ]
+
+  user-rpc:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/code
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/code
+    entrypoint: [ "./start.sh", "rpc", "user" ]
+
+  product-api:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/code
+    restart: always
+    user: 1000:1000
+    ports:
+      - 8001:8001
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/code
+    entrypoint: [ "./start.sh", "api", "product" ]
+
+  product-rpc:
+    image: golang:1.17.5-buster
+    tty: true
+    working_dir: /home/code
+    restart: always
+    user: 1000:1000
+    networks:
+      - mf_net
+    env_file:
+      - .go.env
+    volumes:
+      - ../:/home/code
+    entrypoint: [ "./start.sh", "rpc", "product" ]
+
   order-api:
     image: golang:1.17.5-buster
     tty: true
@@ -67,64 +127,3 @@ services:
     volumes:
       - ../:/home/code
     entrypoint: [ "./start.sh", "rpc", "pay" ]
-  
-  product-api:
-    image: golang:1.17.5-buster
-    tty: true
-    working_dir: /home/code
-    restart: always
-    user: 1000:1000
-    ports:
-      - 8001:8001
-    networks:
-      - mf_net
-    env_file:
-      - .go.env
-    volumes:
-      - ../:/home/code
-    entrypoint: [ "./start.sh", "api", "product" ]
-
-  product-rpc:
-    image: golang:1.17.5-buster
-    tty: true
-    working_dir: /home/code
-    restart: always
-    user: 1000:1000
-    networks:
-      - mf_net
-    env_file:
-      - .go.env
-    volumes:
-      - ../:/home/code
-    entrypoint: [ "./start.sh", "rpc", "product" ]
-
-  user-api:
-    image: golang:1.17.5-buster
-    tty: true
-    working_dir: /home/code
-    restart: always
-    user: 1000:1000
-    ports:
-      - 8000:8000
-    networks:
-      - mf_net
-    env_file:
-      - .go.env
-    volumes:
-      - ../:/home/code
-    entrypoint: [ "./start.sh", "api", "user" ]
-
-  user-rpc:
-    image: golang:1.17.5-buster
-    tty: true
-    working_dir: /home/code
-    restart: always
-    user: 1000:1000
-    networks:
-      - mf_net
-    env_file:
-      - .go.env
-    volumes:
-      - ../:/home/code
-    entrypoint: [ "./start.sh", "rpc", "user" ]
-

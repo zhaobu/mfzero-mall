@@ -6,9 +6,9 @@ Mysql:
   DataSource: root:12345@tcp(mf_mysql8:3306)/mf_mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 CacheRedis:
-- Host: mf_redis:6379
-  Pass: "12345"
-  Type: node
+  - Host: mf_redis:6379
+    Pass: "12345"
+    Type: node
 
 Auth:
   AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
@@ -17,7 +17,7 @@ Auth:
 UserRpc:
   Etcd:
     Hosts:
-    - mf_etcd:2379
+      - mf_etcd:2379
     Key: user.rpc
 
 Telemetry:
@@ -25,3 +25,8 @@ Telemetry:
   Endpoint: http://mf_jaeger:14268/api/traces
   Sampler: 1.0
   Batcher: jaeger
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9091
+  Path: /metrics

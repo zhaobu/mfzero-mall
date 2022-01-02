@@ -3,31 +3,36 @@ ListenOn: 0.0.0.0:9002
 
 Etcd:
   Hosts:
-  - mf_etcd:2379
+    - mf_etcd:2379
   Key: order.rpc
 
 Mysql:
   DataSource: root:12345@tcp(mf_mysql8:3306)/mf_mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 CacheRedis:
-- Host: mf_redis:6379
-  Type: node
-  Pass: "12345"
+  - Host: mf_redis:6379
+    Type: node
+    Pass: "12345"
 
 UserRpc:
   Etcd:
     Hosts:
-    - mf_etcd:2379
+      - mf_etcd:2379
     Key: user.rpc
 
 ProductRpc:
   Etcd:
     Hosts:
-    - mf_etcd:2379
+      - mf_etcd:2379
     Key: product.rpc
 
 Telemetry:
   Name: order.rpc
   Endpoint: http://mf_jaeger:14268/api/traces
   Sampler: 1.0
-  Batcher: jaeger  
+  Batcher: jaeger
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9091
+  Path: /metrics

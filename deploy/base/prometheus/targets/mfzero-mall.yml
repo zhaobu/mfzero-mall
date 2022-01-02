@@ -1,0 +1,40 @@
+- targets: ["user-api:9091"]
+  labels:
+      # 自定义标签
+      app: "user-api"
+      env: "test"
+
+- targets: ["user-rpc:9091"]
+  labels:
+      app: "user-rpc"
+      env: "test"
+
+- targets: ["product-api:9091"]
+  labels:
+      app: "product-api"
+      env: "test"
+
+- targets: ["product-rpc:9091"]
+  labels:
+      app: "product-rpc"
+      env: "test"
+
+- targets: ["order-api:9091"]
+  labels:
+      app: "order-api"
+      env: "test"
+
+- targets: ["order-rpc:9091"]
+  labels:
+      app: "order-rpc"
+      env: "test"
+
+- targets: ["pay-api:9091"]
+  labels:
+      app: "pay-api"
+      env: "test"
+
+- targets: ["pay-rpc:9091"]
+  labels:
+      app: "pay-rpc"
+      env: "test"

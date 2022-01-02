@@ -34,6 +34,7 @@ services:
       ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
     volumes:
       - ./etcd/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml
+      - mf_etcd_data:/bitnami/etcd
     networks:
       - mf_net
 
@@ -118,7 +119,8 @@ services:
     container_name: mf_prometheus
     restart: always
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml # 将 prometheus 配置文件挂载到容器里
+      - ./prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml # 将 prometheus 配置文件挂载到容器里
+      - ./prometheus/targets:/opt/bitnami/prometheus/conf/targets
     ports:
       - "${PROMETHEUS_PORT}:9090" # 设置容器9090端口映射指定宿主机端口，用于宿主机访问可视化web
     networks:
@@ -133,7 +135,7 @@ services:
     volumes:
       - "./grafana/provisioning:/etc/grafana/provisioning"
       - "./grafana/dashboards:/var/lib/grafana/dashboards"
-      - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"      
+      - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"
     networks:
       - mf_net
 

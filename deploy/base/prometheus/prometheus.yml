@@ -1,15 +1,15 @@
 # my global config
 global:
-  scrape_interval: 1s # Set the scrape interval to every 15 seconds. Default is every 1 minute. 
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.     
+  scrape_interval: 1s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
-# apisix配置
+  # apisix配置
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
     stack: "apisix"
-    
+
 # Alertmanager configuration
 alerting:
   alertmanagers:
@@ -17,7 +17,7 @@ alerting:
         - targets:
           # - alertmanager:9093
 
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.  
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
   # - "first_rules.yml"
   # - "second_rules.yml"
@@ -30,60 +30,21 @@ scrape_configs:
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
-
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
     static_configs:
       - targets: ["localhost:9090"]
 
-# apisix配置
-    # Override the global default and scrape targets from this job every 5 seconds.
-    scrape_interval: 5s      
+  # 商城项目自动发现的采集任务配置
+  - job_name: "mfzero-mall"
+    scrape_interval: 5s
+    file_sd_configs:
+      - files:
+          - targets/*.json #采集文件路径
+          - targets/*.yml #采集文件路径
+        refresh_interval: 5m #自动发现间隔时间，默认5m
 
-  # 我们自己的商城项目配置
-  - job_name: 'mall'
-    static_configs:
-      # 目标的采集地址
-      - targets: ['golang:9080']
-        labels:
-          # 自定义标签
-          app: 'user-api'
-          env: 'test'
-
-      - targets: ['golang:9090']
-        labels:
-          app: 'user-rpc'
-          env: 'test'
-
-      - targets: ['golang:9081']
-        labels:
-          app: 'product-api'
-          env: 'test'
-
-      - targets: ['golang:9091']
-        labels:
-          app: 'product-rpc'
-          env: 'test'
-
-      - targets: ['golang:9082']
-        labels:
-          app: 'order-api'
-          env: 'test'
-
-      - targets: ['golang:9092']
-        labels:
-          app: 'order-rpc'
-          env: 'test'
-
-      - targets: ['golang:9083']
-        labels:
-          app: 'pay-api'
-          env: 'test'
-
-      - targets: ['golang:9093']
-        labels:
-          app: 'pay-rpc'
-          env: 'test'
-
-# apisix的配置
+  # apisix的配置
   - job_name: "apisix"
     scrape_interval: 5s
     metrics_path: "/apisix/prometheus/metrics"
