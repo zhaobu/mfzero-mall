@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "pre_generate",
+            "type": "shell",
+            "command": "./start.sh build"
+        },
+    ]
+}

@@ -1,0 +1,95 @@
+{
+    "files.autoGuessEncoding": false,
+    "files.encoding": "utf8",
+    "sqltools.connections": [],
+    "todo-tree.highlights.defaultHighlight": {
+        "icon": "alert",
+        "type": "text",
+        "foreground": "red",
+        "background": "yellow",
+        "opacity": 100,
+        "iconColour": "blue"
+    },
+    "todo-tree.highlights.customHighlight": {
+        "TODO": {
+            "icon": "check",
+            "type": "line"
+        },
+        "FIXME": {
+            "foreground": "black",
+            "iconColour": "yellow",
+            "gutterIcon": true
+        }
+    },
+    "todo-tree.filtering.excludeGlobs": [
+        "*.pb.go"
+    ],
+    "window.zoomLevel": 0,
+    // "http.proxy": "http://192.168.2.101:10809",
+    //proto格式化格式设置
+    "clang-format.executable": "${workspaceRoot}/third_party/clangformat/clang-format",
+    "clang-format.language.proto.style": "{ BasedOnStyle: Google, Language: Proto, IndentWidth: 4, ColumnLimit: 0, AlignTrailingComments: true}",
+    // 控制显示哪些文件夹
+    "files.exclude": {
+        "**/*.meta": true,
+        "**/*-template": true,
+        // "**/.git": false
+    },
+    "explorer.confirmDelete": false,
+    "go.docsTool": "gogetdoc",
+    "go.lintFlags": [
+        "--disable=varcheck",
+        "--enable=errcheck"
+    ],
+    "go.testFlags": [
+        "-v", //显示日志
+        "-count=1" //禁用go test缓存
+    ],
+    "go.installDependenciesWhenBuilding": true,
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": false,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "go.formatTool": "goimports",
+    "go.delveConfig": {
+        "dlvLoadConfig": {
+            "followPointers": true,
+            "maxVariableRecurse": 5,
+            "maxStringLen": 2000,
+            "maxArrayValues": 25,
+            "maxStructFields": -1
+        },
+        "apiVersion": 2,
+        "showGlobalVariables": true
+    },
+    // "go.inferGopath": true,
+    // "go.gopath": "/home/liwei216/midea/go",
+    // "go.toolsGopath": "/home/lw/midea/go/bin",
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    // "go.gotoSymbol.includeGoroot": true,
+    // "go.goroot": "/home/liwei216/goenv/go1.16/go",
+    "protoc": {
+        // "path": "", //自定义protoc的路径
+        "compile_on_save": true,
+        "options": [
+            "--proto_path=${workspaceRoot}",
+            "--proto_path=${workspaceRoot}/third_party",
+            "--go_out=paths=source_relative:.",
+            "--go-errors_out=paths=source_relative:.",
+            "--go-http_out=paths=source_relative:.",
+            "--go-grpc_out=paths=source_relative:.",
+            "--openapi_out==paths=source_relative:.",
+            "--validate_out=paths=source_relative,lang=go:.",
+        ]
+    },
+    "gopls": {
+        "buildFlags": [
+            // "-tags=wireinject"
+        ],
+    },
+    "docker.containers.label": "ContainerName"
+}
