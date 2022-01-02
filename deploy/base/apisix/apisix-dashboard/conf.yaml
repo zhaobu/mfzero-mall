@@ -23,7 +23,7 @@ conf:
     - 0.0.0.0/0
   etcd:
     endpoints:          # supports defining multiple etcd host addresses for an etcd cluster
-      - "http://mf_etcd:2379"
+      - "http://etcd:2379"
                           # yamllint disable rule:comments-indentation
                           # etcd basic auth info
     # username: "root"    # ignore etcd username if not enable etcd auth
