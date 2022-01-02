@@ -1,9 +1,15 @@
 # my global config
 global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute. 
+  scrape_interval: 1s # Set the scrape interval to every 15 seconds. Default is every 1 minute. 
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.     
   # scrape_timeout is set to the global default (10s).
 
+# apisix配置
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    stack: "apisix"
+    
 # Alertmanager configuration
 alerting:
   alertmanagers:
@@ -27,6 +33,10 @@ scrape_configs:
 
     static_configs:
       - targets: ["localhost:9090"]
+
+# apisix配置
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s      
 
   # 我们自己的商城项目配置
   - job_name: 'mall'
@@ -72,3 +82,10 @@ scrape_configs:
         labels:
           app: 'pay-rpc'
           env: 'test'
+
+# apisix的配置
+  - job_name: "apisix"
+    scrape_interval: 5s
+    metrics_path: "/apisix/prometheus/metrics"
+    static_configs:
+      - targets: ["mf_apisix:9091"]
