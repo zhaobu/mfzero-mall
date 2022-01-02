@@ -8,8 +8,6 @@ networks:
 
     # 游戏数据卷
 volumes:
-  mf_etcd_data:
-    driver: local
   mf_redisdata:
     driver: local
   mf_nginxdata:
@@ -29,9 +27,10 @@ services:
       - ${ETCD_Peer_PORT}:2380
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://vb-dev:2379
+      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+      - ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379
     volumes:
-      - mf_etcd_data:/bitnami/etcd
+      - ./etcd/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml
     networks:
       - mf_net
 
@@ -40,7 +39,7 @@ services:
     container_name: mf_etcd_web
     restart: always
     ports:
-      - 9080:8080
+      - 8080:8080
     networks:
       - mf_net
     # entrypoint: [ "./etcdkeeper.bin", "-h", 0.0.0.0, -p, 8080 ]
@@ -86,7 +85,7 @@ services:
     container_name: mf_prometheus
     restart: always
     volumes:
-      - ./prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml # 将 prometheus 配置文件挂载到容器里
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml # 将 prometheus 配置文件挂载到容器里
     ports:
       - "${PROMETHEUS_PORT}:9090" # 设置容器9090端口映射指定宿主机端口，用于宿主机访问可视化web
     networks:
@@ -136,5 +135,32 @@ services:
     tty: true
     volumes:
       - ../../:/code
+    networks:
+      - mf_net
+
+  mf_apisix-dashboard:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_apisix-dashboard:latest
+    restart: always
+    volumes:
+      - ./apisix/apisix-dashboard/conf.yaml:/usr/local/apisix-dashboard/conf/conf.yaml
+    ports:
+      - "${APISIX_DASHBOARD_PORT}:9000"
+    networks:
+      - mf_net
+
+  mf_apisix:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_apisix:latest
+    restart: always
+    volumes:
+      - ./apisix/apisix/log:/usr/local/apisix/logs
+      - ./apisix/apisix/conf/config.yaml:/usr/local/apisix/conf/config.yaml:ro
+    depends_on:
+      - mf_etcd
+    ##network_mode: host
+    ports:
+      - "${APISIX_PORT1}:9080/tcp"
+      - "${APISIX_PORT2}:9091/tcp"
+      - "${APISIX_PORT3}:9443/tcp"
+      - "${APISIX_PORT4}:9092/tcp"
     networks:
       - mf_net
