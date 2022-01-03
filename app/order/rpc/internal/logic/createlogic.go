@@ -48,19 +48,19 @@ func (l *CreateLogic) Create(in *order.CreateRequest) (*order.CreateResponse, er
 		return nil, status.Error(500, "产品库存不足")
 	}
 
-	newOrder := model.Order{
+	newDeal := model.Deal{
 		Uid:    in.Uid,
 		Pid:    in.Pid,
 		Amount: in.Amount,
 		Status: 0,
 	}
 
-	res, err := l.svcCtx.OrderModel.Insert(&newOrder)
+	res, err := l.svcCtx.DealModel.Insert(&newDeal)
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}
 
-	newOrder.Id, err = res.LastInsertId()
+	newDeal.Id, err = res.LastInsertId()
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}
@@ -78,6 +78,6 @@ func (l *CreateLogic) Create(in *order.CreateRequest) (*order.CreateResponse, er
 	}
 
 	return &order.CreateResponse{
-		Id: newOrder.Id,
+		Id: newDeal.Id,
 	}, nil
 }

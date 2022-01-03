@@ -13,7 +13,7 @@ import (
 type ServiceContext struct {
 	Config config.Config
 
-	OrderModel model.OrderModel
+	DealModel model.DealModel
 
 	UserRpc    userclient.User
 	ProductRpc productclient.Product
@@ -23,7 +23,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	conn := sqlx.NewMysql(c.Mysql.DataSource)
 	return &ServiceContext{
 		Config:     c,
-		OrderModel: model.NewOrderModel(conn, c.CacheRedis),
+		DealModel:  model.NewDealModel(conn, c.CacheRedis),
 		UserRpc:    userclient.NewUser(zrpc.MustNewClient(c.UserRpc)),
 		ProductRpc: productclient.NewProduct(zrpc.MustNewClient(c.ProductRpc)),
 	}

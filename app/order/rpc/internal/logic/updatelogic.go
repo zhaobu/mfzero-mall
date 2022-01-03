@@ -27,7 +27,7 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 
 func (l *UpdateLogic) Update(in *order.UpdateRequest) (*order.UpdateResponse, error) {
 	// 查询订单是否存在
-	res, err := l.svcCtx.OrderModel.FindOne(in.Id)
+	res, err := l.svcCtx.DealModel.FindOne(in.Id)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return nil, status.Error(100, "订单不存在")
@@ -48,7 +48,7 @@ func (l *UpdateLogic) Update(in *order.UpdateRequest) (*order.UpdateResponse, er
 		res.Status = in.Status
 	}
 
-	err = l.svcCtx.OrderModel.Update(res)
+	err = l.svcCtx.DealModel.Update(res)
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}

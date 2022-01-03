@@ -27,7 +27,7 @@ func NewPaidLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PaidLogic {
 
 func (l *PaidLogic) Paid(in *order.PaidRequest) (*order.PaidResponse, error) {
 	// 查询订单是否存在
-	res, err := l.svcCtx.OrderModel.FindOne(in.Id)
+	res, err := l.svcCtx.DealModel.FindOne(in.Id)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return nil, status.Error(100, "订单不存在")
@@ -37,7 +37,7 @@ func (l *PaidLogic) Paid(in *order.PaidRequest) (*order.PaidResponse, error) {
 
 	res.Status = 1
 
-	err = l.svcCtx.OrderModel.Update(res)
+	err = l.svcCtx.DealModel.Update(res)
 	if err != nil {
 		return nil, status.Error(500, err.Error())
 	}

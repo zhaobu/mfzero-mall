@@ -9,7 +9,7 @@ clean:
 	find . -name bin|xargs sudo rm -rf
 
 style=gozero
-service=demo
+service=order
 # api
 api_name=$(service)
 api_dir=api/$(api_name)
@@ -27,7 +27,7 @@ api-go:
 
 # rpc
 rpc_name=$(service)
-rpc_dir=app/$(rpc_name)/service
+rpc_dir=app/$(rpc_name)/rpc
 
 # 生成proto模板
 rpc-template:
@@ -39,12 +39,12 @@ rpc-proto:
 
 
 # model
-table=user
+table=deal
 sql_name=$(table).sql
 model_name=$(table)
 model_dir=app/$(service)/model
 db_type=mysql
-db_url=lw:12345@tcp(10.133.236.150:3306)/mf_demo
+db_url=lw:12345@tcp(10.133.236.150:3306)/mf_mall
 
 # 根据已有sql文件生成
 model-ddl:

@@ -36,7 +36,7 @@ func (l *ListLogic) List(in *order.ListRequest) (*order.ListResponse, error) {
 	}
 
 	// 查询订单是否存在
-	list, err := l.svcCtx.OrderModel.FindAllByUid(in.Uid)
+	list, err := l.svcCtx.DealModel.FindAllByUid(in.Uid)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return nil, status.Error(100, "订单不存在")
