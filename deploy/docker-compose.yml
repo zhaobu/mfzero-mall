@@ -30,6 +30,8 @@ services:
     working_dir: /home/code
     restart: always
     user: 1000:1000
+    ports:
+      - 9100:9000
     networks:
       - mf_net
     env_file:
