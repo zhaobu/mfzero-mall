@@ -1,6 +1,8 @@
 Name: pay.rpc
 ListenOn: 0.0.0.0:9003
-
+Log:
+  Mode: file
+  Path: ../../../logs/pay/rpc
 Etcd:
   Hosts:
     - mf_etcd:2379

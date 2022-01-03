@@ -74,7 +74,7 @@
     // "go.goroot": "/home/liwei216/goenv/go1.16/go",
     "protoc": {
         // "path": "", //自定义protoc的路径
-        "compile_on_save": true,
+        "compile_on_save": false,
         "options": [
             "--proto_path=${workspaceRoot}",
             "--proto_path=${workspaceRoot}/third_party",

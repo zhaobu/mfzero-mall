@@ -1,7 +1,9 @@
 Name: Order
 Host: 0.0.0.0
 Port: 8002
-
+Log:
+  Mode: file
+  Path: ../../../logs/order/api
 Mysql:
   DataSource: root:12345@tcp(mf_mysql8:3306)/mf_mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 

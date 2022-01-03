@@ -50,7 +50,7 @@ db_url=lw:12345@tcp(10.133.236.150:3306)/mf_demo
 model-ddl:
 	$(call checkdir,$(model_dir))
 	goctl rpc template -o $(rpc_dir)/$(rpc_name).proto
-	goctl model mysql ddl -src $(model_dir)/$(sql_name) -dir $(model_dir) -c
+	goctl model $(db_type) ddl -src $(model_dir)/$(sql_name) -dir $(model_dir) -c
 
 # 根据db里面的表结构生成
 model-url:

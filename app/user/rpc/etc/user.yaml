@@ -1,6 +1,8 @@
 Name: user.rpc
 ListenOn: 0.0.0.0:9000
-
+Log:
+  Mode: file
+  Path: ../../../logs/user/rpc
 Etcd:
   Hosts:
   - mf_etcd:2379

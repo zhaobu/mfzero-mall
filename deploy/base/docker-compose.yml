@@ -33,7 +33,7 @@ services:
       ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
       ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
     volumes:
-      - ./etcd/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml
+      # - ./etcd/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml
       - mf_etcd_data:/bitnami/etcd
     networks:
       - mf_net

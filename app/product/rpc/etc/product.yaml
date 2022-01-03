@@ -1,6 +1,8 @@
 Name: product.rpc
 ListenOn: 0.0.0.0:9001
-
+Log:
+  Mode: file
+  Path: ../../../logs/product/rpc
 Etcd:
   Hosts:
     - mf_etcd:2379
