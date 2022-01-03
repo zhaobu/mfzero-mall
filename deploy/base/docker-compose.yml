@@ -30,7 +30,7 @@ services:
       - ${ETCD_Peer_PORT}:2380
     environment:
       ALLOW_NONE_AUTHENTICATION: "yes"
-      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://mf_etcd:2379"
       ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
     volumes:
       # - ./etcd/etcd.conf.yml:/opt/bitnami/etcd/conf/etcd.conf.yml
@@ -130,11 +130,12 @@ services:
     image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_grafana:latest
     container_name: mf_grafana
     restart: always
+    user: 1000:1000
     ports:
       - "${GRAFANA_PORT}:3000" # 设置容器3000端口映射指定宿主机端口，用于宿主机访问可视化web
     volumes:
       - "./grafana/provisioning:/etc/grafana/provisioning"
-      - "./grafana/dashboards:/var/lib/grafana/dashboards"
+      - "./grafana/data:/var/lib/grafana"
       - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"
     networks:
       - mf_net
