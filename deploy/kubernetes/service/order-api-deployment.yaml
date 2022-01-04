@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/service
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: order-api
+  name: order-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: order-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/service
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mf_net: "true"
+        io.kompose.service: order-api
+    spec:
+      containers:
+        - command:
+            - ./start.sh
+            - api
+            - order
+          env:
+            - name: GO111MODULE
+              valueFrom:
+                configMapKeyRef:
+                  key: GO111MODULE
+                  name: go-env
+            - name: GOCACHE
+              valueFrom:
+                configMapKeyRef:
+                  key: GOCACHE
+                  name: go-env
+            - name: GOMODCACHE
+              valueFrom:
+                configMapKeyRef:
+                  key: GOMODCACHE
+                  name: go-env
+            - name: GOPATH
+              valueFrom:
+                configMapKeyRef:
+                  key: GOPATH
+                  name: go-env
+            - name: GOPROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: GOPROXY
+                  name: go-env
+          image: golang:1.17.5-buster
+          name: order-api
+          ports:
+            - containerPort: 8002
+          resources: {}
+          tty: true
+          volumeMounts:
+            - mountPath: /home/code
+              name: order-api-claim0
+          workingDir: /home/code
+      restartPolicy: Always
+      volumes:
+        - name: order-api-claim0
+          persistentVolumeClaim:
+            claimName: order-api-claim0
+status: {}

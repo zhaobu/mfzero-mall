@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mf-redis
+  name: mf-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mf-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mf_net: "true"
+        io.kompose.service: mf-redis
+    spec:
+      containers:
+        - args:
+            - /usr/local/etc/redis/redis.conf
+          image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_redis:latest
+          name: mf-redis
+          ports:
+            - containerPort: 6379
+          resources: {}
+          volumeMounts:
+            - mountPath: /data
+              name: mf-redis-claim0
+            - mountPath: /usr/local/etc/redis/redis.conf
+              name: mf-redis-claim1
+      restartPolicy: Always
+      volumes:
+        - name: mf-redis-claim0
+          persistentVolumeClaim:
+            claimName: mf-redis-claim0
+        - name: mf-redis-claim1
+          persistentVolumeClaim:
+            claimName: mf-redis-claim1
+status: {}

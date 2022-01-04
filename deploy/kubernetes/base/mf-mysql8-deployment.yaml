@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mf-mysql8
+  name: mf-mysql8
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mf-mysql8
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mf_net: "true"
+        io.kompose.service: mf-mysql8
+    spec:
+      containers:
+        - args:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_bin
+          env:
+            - name: MYSQL_DATABASE
+            - name: MYSQL_PASSWORD
+            - name: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_USER
+          image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_mysql8_0_27:latest
+          name: mf-mysql8
+          ports:
+            - containerPort: 3306
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/mysql/conf.d/docker.cnf
+              name: mf-mysql8-claim0
+            - mountPath: /data/sql/
+              name: mf-mysql8-claim1
+            - mountPath: /data/dbinit
+              name: mf-mysql8-claim2
+            - mountPath: /home/exec.sh
+              name: mf-mysql8-claim3
+            - mountPath: /var/lib/mysql
+              name: mf-mysql8data
+          workingDir: /home
+      restartPolicy: Always
+      volumes:
+        - name: mf-mysql8-claim0
+          persistentVolumeClaim:
+            claimName: mf-mysql8-claim0
+        - name: mf-mysql8-claim1
+          persistentVolumeClaim:
+            claimName: mf-mysql8-claim1
+        - name: mf-mysql8-claim2
+          persistentVolumeClaim:
+            claimName: mf-mysql8-claim2
+        - name: mf-mysql8-claim3
+          persistentVolumeClaim:
+            claimName: mf-mysql8-claim3
+        - name: mf-mysql8data
+          persistentVolumeClaim:
+            claimName: mf-mysql8data
+status: {}

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mf-dtm
+  name: mf-dtm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mf-dtm
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mf_net: "true"
+        io.kompose.service: mf-dtm
+    spec:
+      containers:
+        - env:
+            - name: STORE_DRIVER
+            - name: STORE_HOST
+            - name: STORE_PASSWORD
+            - name: STORE_PORT
+            - name: STORE_USER
+          image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_dtm:latest
+          name: mf-dtm
+          ports:
+            - containerPort: 36789
+            - containerPort: 36790
+          resources: {}
+      restartPolicy: Always
+status: {}

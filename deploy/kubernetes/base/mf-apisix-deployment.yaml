@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mf-apisix
+  name: mf-apisix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mf-apisix
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml -o ../../kubernetes/base
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/mf_net: "true"
+        io.kompose.service: mf-apisix
+    spec:
+      containers:
+        - image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_apisix:latest
+          name: mf-apisix
+          ports:
+            - containerPort: 9080
+            - containerPort: 9091
+            - containerPort: 9443
+            - containerPort: 9092
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/local/apisix/logs
+              name: mf-apisix-claim0
+            - mountPath: /usr/local/apisix/conf/config.yaml
+              name: mf-apisix-claim1
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: mf-apisix-claim0
+          persistentVolumeClaim:
+            claimName: mf-apisix-claim0
+        - name: mf-apisix-claim1
+          persistentVolumeClaim:
+            claimName: mf-apisix-claim1
+            readOnly: true
+status: {}
