@@ -3,7 +3,7 @@ output=bin/server
 function build() {
     pwd
     # make clean
-    # make build
+    make build
     chmod u+x $output
     return 0
 }
