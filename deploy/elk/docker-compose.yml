@@ -1,0 +1,116 @@
+version: "3.8"
+
+# 申明同一个网络
+networks:
+  mf_net:
+    name: mf_net
+    driver: bridge
+    # external: true # 申明网络已经在外部创建
+    # 游戏数据卷
+volumes:
+  mf_zookeeper_data:
+    driver: local
+  mf_kafka_data:
+    driver: local
+  mf_es_data:
+    driver: local
+  mf_kibana_data:
+    driver: local
+  mf_filebeat_data:
+    driver: local
+  # 服务
+services:
+  mf_zookeeper:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_zookeeper:latest
+    container_name: zookeeper
+    restart: always
+    ports:
+      - '2181:2181'
+    volumes:
+      - "mf_zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - mf_net
+
+  mf_kafka:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_kafka:latest
+    container_name: kafka
+    restart: always
+    ports:
+      - '9192:9092'
+    volumes:
+      - mf_kafka_data:/bitnami/kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9192
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9192
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+    networks:
+      - mf_net
+
+  mf_elasticsearch:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_elasticsearch:latest
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - TZ=Asia/Shanghai
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - mf_es_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - mf_net
+
+  mf_kibana:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_kibana:latest
+    container_name: kibana
+    restart: always
+    environment:
+      - "elasticsearch.hosts=http://es:9200" #因为上面配置了域名，所以这里可以简写为http://es:9200    
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - mf_kibana_data:/usr/share/kibana/data
+    networks:
+      - mf_net
+
+  mf_filebeat:
+    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_filebeat:latest
+    container_name: filebeat
+    # user: 1000:1000
+    restart: always
+    volumes:
+      # 映射到容器中[作为数据源]
+      - ../../:/usr/share/code
+      # 方便查看数据及日志(可不映射)
+      - mf_filebeat_data:/usr/share/filebeat
+      # 映射配置文件到容器中
+      - ./filebeat/conf/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    networks:
+      - mf_net
+
+  mf_go-stash:
+    image: kevinwan/go-stash
+    container_name: go-stash
+    restart: always
+    # user: 1000:1000
+    volumes:
+      # 映射到容器中[作为数据源]
+      - ../../:/usr/share/code
+      # 映射配置文件到容器中
+      - ./go-stash/config.yml:/app/etc/config.yaml
+    networks:
+      - mf_net
+    depends_on:
+      - elasticsearch
