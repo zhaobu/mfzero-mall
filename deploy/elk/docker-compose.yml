@@ -78,7 +78,7 @@ services:
     container_name: kibana
     restart: always
     environment:
-      - "elasticsearch.hosts=http://es:9200" #因为上面配置了域名，所以这里可以简写为http://es:9200    
+      - elasticsearch.hosts=http://elasticsearch:9200
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
       - mf_kibana_data:/usr/share/kibana/data
