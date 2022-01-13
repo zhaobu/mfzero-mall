@@ -1,10 +1,21 @@
 version: "3.8"
 
+volumes:
+  mf_mongodb_data:
+    driver: local
+  mf_mongodb_configdb:
+    driver: local
+  mf_es_data:
+    driver: local
+  mf_graylog_data:
+    driver: local
+
 services:
   mongodb:
     image: "mongo:5.0.5-focal"
     volumes:
       - "mf_mongodb_data:/data/db"
+      - "mf_mongodb_configdb:/data/configdb"
     restart: "on-failure"
 
   elasticsearch:
@@ -33,31 +44,28 @@ services:
     entrypoint: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
     environment:
       GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/config/node-id"
-      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET:?Please configure GRAYLOG_PASSWORD_SECRET in the .env file}
-      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
+      GRAYLOG_PASSWORD_SECRET: ${GRAYLOG_PASSWORD_SECRET:?Please configure
+        GRAYLOG_PASSWORD_SECRET in the .env file}
+      GRAYLOG_ROOT_PASSWORD_SHA2: ${GRAYLOG_ROOT_PASSWORD_SHA2:?Please configure
+        GRAYLOG_ROOT_PASSWORD_SHA2 in the .env file}
       GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://wsl2:9900/"
       GRAYLOG_ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
       GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
     ports:
-    - "5044:5044/tcp"   # Beats
-    - "5140:5140/udp"   # Syslog
-    - "5140:5140/tcp"   # Syslog
-    - "5555:5555/tcp"   # RAW TCP
-    - "5555:5555/udp"   # RAW TCP
-    - "9900:9000/tcp"   # Server API
-    - "12201:12201/tcp" # GELF TCP
-    - "12201:12201/udp" # GELF UDP
-    #- "10000:10000/tcp" # Custom TCP port
-    #- "10000:10000/udp" # Custom UDP port
-    - "13301:13301/tcp" # Forwarder data
-    - "13302:13302/tcp" # Forwarder config
+      - "5044:5044/tcp" # Beats
+      - "5140:5140/udp" # Syslog
+      - "5140:5140/tcp" # Syslog
+      - "5555:5555/tcp" # RAW TCP
+      - "5555:5555/udp" # RAW TCP
+      - "9900:9000/tcp" # Server API
+      - "12201:12201/tcp" # GELF TCP
+      - "12201:12201/udp" # GELF UDP
+      #- "10000:10000/tcp" # Custom TCP port
+      #- "10000:10000/udp" # Custom UDP port
+      - "13301:13301/tcp" # Forwarder data
+      - "13302:13302/tcp" # Forwarder config
     volumes:
-      - "mf_graylog_data:/usr/share/graylog/data/data"
-      - "mf_graylog_journal:/usr/share/graylog/data/journal"
+      - "mf_graylog_data:/usr/share/graylog/data"
+      # - "mf_graylog_journal:/usr/share/graylog/data/journal"
     restart: "on-failure"
-volumes:
-  mf_mongodb_data:
-  mf_es_data:
-  mf_graylog_data:
-  mf_graylog_journal:
