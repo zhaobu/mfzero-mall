@@ -3,9 +3,33 @@
 #
 
 # Default Kibana configuration for docker target
+# 默认端口
+server.port: 5601
+# 服务名称
+server.name: kibana
+# 默认监听地址，访问地址，改为所有地方可访问
 server.host: "0.0.0.0"
+# 公共访问地址
+server.publicBaseUrl: "http://wsl2:5601"
 server.shutdownTimeout: "5s"
-elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+# 连接elasticsearch地址
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+
+# dashboards. Kibana creates a new index if the index doesn't already exist.
+# kibana.index: ".kibana"
+
 monitoring.ui.container.elasticsearch.enabled: true
-# 汉化
+
+## X-Pack security credentials
+##连接elasticsearch账号密码
+# elasticsearch.username: elastic
+# elasticsearch.password: "123456"
+
+# Supported languages are the following: English - en , by default , Chinese - zh-CN .
+# 设置中文
 i18n.locale: "zh-CN"
+
+#密钥设置，否则在安全选项相关功能无法查看使用。用密码生成器生成至少32位即可
+# xpack.encryptedSavedObjects.encryptionKey: iGhu317CGomTQ3UH1nQwYF7yZ8asWPKHHYMwjBUJ
+# xpack.security.encryptionKey: iGhu317CGomTQ3UH1nQwYF7yZ8asWPKHHYMwjBUJ
+# xpack.reporting.encryptionKey: iGhu317CGomTQ3UH1nQwYF7yZ8asWPKHHYMwjBUJ
