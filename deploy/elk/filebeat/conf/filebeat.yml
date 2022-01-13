@@ -6,19 +6,20 @@ filebeat.inputs:
     json.add_error_key: true
     #容器中目录下的所有.log文件
     paths:
-      - /usr/share/code/logs/user/api/*.log
-      - /usr/share/code/logs/user/rpc/*.log
-      - /usr/share/code/logs/order/api/*.log
-      - /usr/share/code/logs/order/rpc/*.log
-      - /usr/share/code/logs/pay/api/*.log
-      - /usr/share/code/logs/pay/rpc/*.log
-      - /usr/share/code/logs/product/api/*.log
-      - /usr/share/code/logs/product/rpc/*.log            
+      - /usr/share/code/logs/*/*/*.log
+      # - /usr/share/code/logs/user/api/*.log
+      # - /usr/share/code/logs/user/rpc/*.log
+      # - /usr/share/code/logs/order/api/*.log
+      # - /usr/share/code/logs/order/rpc/*.log
+      # - /usr/share/code/logs/pay/api/*.log
+      # - /usr/share/code/logs/pay/rpc/*.log
+      # - /usr/share/code/logs/product/api/*.log
+      # - /usr/share/code/logs/product/rpc/*.log
     # recursive_glob.enabled: true #启用全局递归模式，例如/foo/**包括/foo, /foo/*, /foo/*/*
-    exclude_files: ['stat.log'] #用于匹配希望Filebeat忽略的文件的正则表达式列表
+    exclude_files: ['stat\.log$'] #用于匹配希望Filebeat忽略的文件的正则表达式列表
     scan_frequency: "5s" # 每 10 秒钟扫描一次目录，更新通配符匹配上的文件列表
     tail_files: true #如果设置为true，Filebeat从文件尾开始监控文件新增内容，把新增的每一行文件作为一个事件依次发送，而不是从文件开始处重新发送所有内容。
-    reload.period: 5s
+    reload.period: "5s"
 setup.template.settings:
   index.number_of_shards: 1
 

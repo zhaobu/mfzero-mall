@@ -43,4 +43,4 @@ Clusters:
         MaxChunkBytes: 5242880
         GracePeriod: 10s
         Compress: false
-        TimeZone: UTC
+        TimeZone: Asia/Shanghai
