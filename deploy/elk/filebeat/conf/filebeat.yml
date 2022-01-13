@@ -15,7 +15,7 @@ filebeat.inputs:
       - /usr/share/code/logs/product/api/*.log
       - /usr/share/code/logs/product/rpc/*.log            
     # recursive_glob.enabled: true #启用全局递归模式，例如/foo/**包括/foo, /foo/*, /foo/*/*
-    # exclude_files: ['stat\.log$'] #用于匹配希望Filebeat忽略的文件的正则表达式列表
+    exclude_files: ['stat.log'] #用于匹配希望Filebeat忽略的文件的正则表达式列表
     scan_frequency: "5s" # 每 10 秒钟扫描一次目录，更新通配符匹配上的文件列表
     tail_files: true #如果设置为true，Filebeat从文件尾开始监控文件新增内容，把新增的每一行文件作为一个事件依次发送，而不是从文件开始处重新发送所有内容。
     reload.period: 5s
