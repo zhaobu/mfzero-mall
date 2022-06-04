@@ -7,7 +7,7 @@ import (
 	"mfzero-mall/app/product/api/internal/types"
 	"mfzero-mall/app/product/rpc/product"
 
-	"github.com/tal-tech/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type RemoveLogic struct {

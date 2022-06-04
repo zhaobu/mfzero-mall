@@ -3,10 +3,11 @@ package handler
 import (
 	"net/http"
 
-	"github.com/tal-tech/go-zero/rest/httpx"
 	"mfzero-mall/app/user/api/internal/logic"
 	"mfzero-mall/app/user/api/internal/svc"
 	"mfzero-mall/app/user/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {

@@ -114,31 +114,31 @@ services:
       - ./mysql/8.0.27/exec.sh:/home/exec.sh
       - mf_mysql8data:/var/lib/mysql
 
-  mf_prometheus:
-    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_prometheus:latest
-    container_name: mf_prometheus
-    restart: always
-    volumes:
-      - ./prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml # 将 prometheus 配置文件挂载到容器里
-      - ./prometheus/targets:/opt/bitnami/prometheus/conf/targets
-    ports:
-      - "${PROMETHEUS_PORT}:9090" # 设置容器9090端口映射指定宿主机端口，用于宿主机访问可视化web
-    networks:
-      - mf_net
+  # mf_prometheus:
+  #   image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_prometheus:latest
+  #   container_name: mf_prometheus
+  #   restart: always
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml # 将 prometheus 配置文件挂载到容器里
+  #     - ./prometheus/targets:/opt/bitnami/prometheus/conf/targets
+  #   ports:
+  #     - "${PROMETHEUS_PORT}:9090" # 设置容器9090端口映射指定宿主机端口，用于宿主机访问可视化web
+  #   networks:
+  #     - mf_net
 
-  mf_grafana:
-    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_grafana:latest
-    container_name: mf_grafana
-    restart: always
-    user: 1000:1000
-    ports:
-      - "${GRAFANA_PORT}:3000" # 设置容器3000端口映射指定宿主机端口，用于宿主机访问可视化web
-    volumes:
-      - "./grafana/provisioning:/etc/grafana/provisioning"
-      - "./grafana/data:/var/lib/grafana"
-      - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"
-    networks:
-      - mf_net
+  # mf_grafana:
+  #   image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_grafana:latest
+  #   container_name: mf_grafana
+  #   restart: always
+  #   user: 1000:1000
+  #   ports:
+  #     - "${GRAFANA_PORT}:3000" # 设置容器3000端口映射指定宿主机端口，用于宿主机访问可视化web
+  #   volumes:
+  #     - "./grafana/provisioning:/etc/grafana/provisioning"
+  #     - "./grafana/data:/var/lib/grafana"
+  #     - "./grafana/config/grafana.ini:/etc/grafana/grafana.ini"
+  #   networks:
+  #     - mf_net
 
   mf_jaeger:
     image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_jaeger:latest

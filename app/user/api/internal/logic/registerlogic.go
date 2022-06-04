@@ -7,7 +7,7 @@ import (
 	"mfzero-mall/app/user/api/internal/types"
 	"mfzero-mall/app/user/rpc/userclient"
 
-	"github.com/tal-tech/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type RegisterLogic struct {

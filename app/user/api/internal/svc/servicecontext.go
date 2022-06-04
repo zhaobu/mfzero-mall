@@ -4,7 +4,7 @@ import (
 	"mfzero-mall/app/user/api/internal/config"
 	"mfzero-mall/app/user/rpc/userclient"
 
-	"github.com/tal-tech/go-zero/zrpc"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {

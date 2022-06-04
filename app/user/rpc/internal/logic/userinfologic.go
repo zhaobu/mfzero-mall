@@ -7,7 +7,7 @@ import (
 	"mfzero-mall/app/user/rpc/internal/svc"
 	"mfzero-mall/app/user/rpc/user"
 
-	"github.com/tal-tech/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/grpc/status"
 )
 

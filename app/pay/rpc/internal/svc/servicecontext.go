@@ -6,8 +6,8 @@ import (
 	"mfzero-mall/app/pay/rpc/internal/config"
 	"mfzero-mall/app/user/rpc/userclient"
 
-	"github.com/tal-tech/go-zero/core/stores/sqlx"
-	"github.com/tal-tech/go-zero/zrpc"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
