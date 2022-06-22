@@ -3,7 +3,7 @@
 #### 介绍
 用go-zero实现一个开箱即用的电商微服务,另有[go-kratos的实现版本](https://gitee.com/zhaobu/mfkratos-mall.git)
 项目正在努力完善中...
-项目的发起源自自己业余时间的兴趣爱好,github上搜索电商,mall等关键字,比如mall, litemall 等这些排名前十的上万starts的优秀开源项目都是java技术栈的.目前golang社区最流行的开源微服务框架要数go-zero, kratos, kitex, 其中以go-zero最为活跃和落地项目最多. 所以mfzero-mall的目标就是学习看起mall, 通过这种接近企业级的开源项目提升整个gopher社区的技术氛围,共同进步, 为新的gopher提供优秀的学习参考资料. 
+项目的发起源自自己业余时间的兴趣爱好,github上搜索电商,mall等关键字,比如mall, litemall 等这些排名前十的上万starts的优秀开源项目都是java技术栈的.目前golang社区最流行的开源微服务框架要数go-zero, kratos, kitex, 其中以go-zero最为活跃和落地项目最多. 所以mfzero-mall第一阶段的目标就是学习看齐[mall](https://github.com/macrozheng/mall), 通过这种接近企业级的开源项目提升整个gopher社区的技术氛围,共同进步, 为新的gopher提供优秀的学习参考资料. 
 
 #### 软件架构
 软件架构说明
