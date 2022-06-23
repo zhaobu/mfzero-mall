@@ -1,5 +1,5 @@
 # zero-mall
-
+[![OSCS Status](https://www.oscs1024.com/platform/badge/zhaobu/mfzero-mall.svg?size=small)](https://www.oscs1024.com/project/zhaobu/mfzero-mall?ref=badge_small)
 #### 介绍
 用go-zero实现一个开箱即用的电商微服务,另有[go-kratos的实现版本](https://gitee.com/zhaobu/mfkratos-mall.git)
 项目正在努力完善中...
