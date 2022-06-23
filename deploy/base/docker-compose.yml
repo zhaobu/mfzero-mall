@@ -151,29 +151,29 @@ services:
     volumes:
       - mf_jagerdata:/tmp
 
-  mf_dtm:
-    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_dtm:latest
-    container_name: mf_dtm
-    restart: always
-    environment:
-      - STORE_DRIVER=${DTM_STORE_DRIVER}
-      - STORE_HOST=${DTM_STORE_HOST}
-      - STORE_USER=${DTM_STORE_USERNAME}
-      - STORE_PASSWORD=${DTM_STORE_PASSWORD}
-      - STORE_PORT=${DTM_STORE_PORT}
-    ports:
-      - "${DTM_HTTP_PORT}:36789"
-      - "${DTM_GRPC_PORT}:36790"
-    networks:
-      - mf_net
+  # mf_dtm:
+  #   image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_dtm:latest
+  #   container_name: mf_dtm
+  #   restart: always
+  #   environment:
+  #     - STORE_DRIVER=${DTM_STORE_DRIVER}
+  #     - STORE_HOST=${DTM_STORE_HOST}
+  #     - STORE_USER=${DTM_STORE_USERNAME}
+  #     - STORE_PASSWORD=${DTM_STORE_PASSWORD}
+  #     - STORE_PORT=${DTM_STORE_PORT}
+  #   ports:
+  #     - "${DTM_HTTP_PORT}:36789"
+  #     - "${DTM_GRPC_PORT}:36790"
+  #   networks:
+  #     - mf_net
 
-  mf_gozero:
-    image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_golang_gozero:latest
-    container_name: mf_gozero
-    restart: always
-    working_dir: /code
-    tty: true
-    volumes:
-      - ../../:/code
-    networks:
-      - mf_net
+  # mf_gozero:
+  #   image: registry.cn-hangzhou.aliyuncs.com/lwopen/microbase_golang_gozero:latest
+  #   container_name: mf_gozero
+  #   restart: always
+  #   working_dir: /code
+  #   tty: true
+  #   volumes:
+  #     - ../../:/code
+  #   networks:
+  #     - mf_net
